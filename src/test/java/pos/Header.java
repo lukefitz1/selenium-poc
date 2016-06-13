@@ -14,4 +14,9 @@ public class Header extends Base {
 	public Boolean headerDisplayed() {
 		return waitForIsDisplayed(header, 10);
 	}
+	
+	public By getHeader() {
+		return header;
+	}
 }
+
