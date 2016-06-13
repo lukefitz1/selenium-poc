@@ -21,7 +21,7 @@ public class Base {
 			return "http://mage.dev/";
 		}
 		else if (System.getProperty("env").equalsIgnoreCase("stage")) {
-			return "http://marco.dev/";
+			return "http://marco.dev/";		
 		}
 		else {
 			return "http://marco.dev/";

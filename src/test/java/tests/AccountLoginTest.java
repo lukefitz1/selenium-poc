@@ -41,7 +41,7 @@ public class AccountLoginTest extends Base {
 		acct.goToLogin();
 	}
 	
-	@Test(alwaysRun = true, groups = { "login" }, priority=0)
+	@Test(groups = { "login" }, priority=0)
 	public void loginFormCheck() {
 		Assert.assertTrue(acct.loginFormDisplayed(), "Login / register form is not displayed");
 	}
