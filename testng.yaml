@@ -1,0 +1,18 @@
+name: Selenium poc
+listeners:
+  - utilities.Listener
+  
+tests:
+  - name: Http status code test on homepage on chrome for mac 
+    parameters: { pplatform: Platform.MAC, pbrowser: chrome, pversion: "50", purl: "http://localhost:4444/wd/hub", pos: mac, pdevice: desktop, pwidth: 1280, pheight: 800 }
+    classes:
+      - tests.HttpStatusCodeTest
+  - name: Account login test on chrome for mac 
+    parameters: { pplatform: Platform.MAC, pbrowser: chrome, pversion: "50", purl: "http://localhost:4444/wd/hub", pos: mac, pdevice: desktop, pwidth: 1280, pheight: 800 }
+    classes:
+      - tests.AccountLoginTest
+  - name: Header visual test on chrome for mac 
+    parameters: { pplatform: Platform.MAC, pbrowser: chrome, pversion: "50", purl: "http://localhost:4444/wd/hub", pos: mac, pdevice: desktop, pwidth: 1280, pheight: 800 }
+    classes:
+      - tests.HeaderVisualTest
+      
