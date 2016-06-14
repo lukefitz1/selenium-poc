@@ -15,25 +15,13 @@ public class Base {
 	public Base(WebDriver driver) {
 		this.driver = driver;
 	}
-	
-	/*public String getBaseUrl() {
+
+	public String getBaseUrl() {
 		if (System.getProperty("env").equalsIgnoreCase("local")) {
 			return "http://mage.dev/";
 		}
 		else if (System.getProperty("env").equalsIgnoreCase("stage")) {
 			return "http://marco.dev/";		
-		}
-		else {
-			return "http://marco.dev/";
-		}
-	}*/
-	
-	public String getBaseUrl() {
-		if (System.getProperty("env").equalsIgnoreCase("local")) {
-			return "http://aaa.dev/";
-		}
-		else if (System.getProperty("env").equalsIgnoreCase("stage")) {
-			return "http://aaa.qa-2.blueacorn.net/";		
 		}
 		else {
 			return "http://marco.dev/";
