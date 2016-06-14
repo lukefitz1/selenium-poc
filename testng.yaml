@@ -3,14 +3,14 @@ listeners:
   - utilities.Listener
   
 tests:
-  - name: Checkout with test product on chrome for mac
-    parameters: { pplatform: Platform.MAC, pbrowser: chrome, pversion: "50", purl: "http://localhost:4444/wd/hub", pos: mac, pdevice: desktop, pwidth: 1280, pheight: 800 }
-    classes:
-      - tests.CheckoutTest
 #  - name: Http status code test on homepage on chrome for mac
 #    parameters: { pplatform: Platform.MAC, pbrowser: chrome, pversion: "50", purl: "http://localhost:4444/wd/hub", pos: mac, pdevice: desktop, pwidth: 1280, pheight: 800 }
 #    classes:
 #      - tests.HttpStatusCodeTest
+  - name: Checkout with test product on chrome for mac
+    parameters: { pplatform: Platform.MAC, pbrowser: chrome, pversion: "50", purl: "http://localhost:4444/wd/hub", pos: mac, pdevice: desktop, pwidth: 1280, pheight: 800 }
+    classes:
+      - tests.CheckoutTest
 #  - name: Account login test on chrome for mac 
 #    parameters: { pplatform: Platform.MAC, pbrowser: chrome, pversion: "50", purl: "http://localhost:4444/wd/hub", pos: mac, pdevice: desktop, pwidth: 1280, pheight: 800 }
 #    classes:
