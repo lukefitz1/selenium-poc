@@ -18,13 +18,13 @@ public class Base {
 
 	public String getBaseUrl() {
 		if (System.getProperty("env").equalsIgnoreCase("local")) {
-			return "http://mage.dev/";
+			return "http://rmstaging.rebeccaminkoff.com/";
 		}
 		else if (System.getProperty("env").equalsIgnoreCase("stage")) {
-			return "http://marco.dev/";		
+			return "http://rmstaging.rebeccaminkoff.com/";		
 		}
 		else {
-			return "http://marco.dev/";
+			return "http://rmstaging.rebeccaminkoff.com/";
 		}
 	}
 	

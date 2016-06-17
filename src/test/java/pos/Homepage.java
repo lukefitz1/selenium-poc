@@ -8,8 +8,8 @@ public class Homepage extends Base {
 		super(driver);
 	}
 	
-	public void goToHomepage() {
-		visit("");
+	public void goToHomepage(String url) {
+		visit(url);
 	}
 	
 }

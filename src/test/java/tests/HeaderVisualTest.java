@@ -15,6 +15,9 @@ import org.testng.annotations.Test;
 import pos.Header;
 import pos.Homepage;
 import com.applitools.eyes.RectangleSize;
+import org.testng.annotations.Factory;
+import org.testng.annotations.DataProvider;
+import org.testng.ITestContext;
 
 public class HeaderVisualTest extends Base {
 
@@ -22,10 +25,13 @@ public class HeaderVisualTest extends Base {
 	private DesiredCapabilities capabilities;
 	private Homepage hp;
 	private Header header;
+	private String[] baseUrls;
+	private String url;
+	private String siteEnv;
 	
-	@Parameters({"pbrowser", "pversion", "pos", "purl", "pwidth", "pheight", "pdevice"})
+	@Parameters({"pbrowser", "pversion", "pos", "purl", "base_urls", "env", "pwidth", "pheight", "pdevice"})
 	@BeforeClass(alwaysRun = true)
-	public void setUpTests(String pbrowser, String pversion, String pos, String purl, @Optional("optional value") int pwidth, @Optional("optional value") int pheight, @Optional("optional value") String pdevice) throws MalformedURLException {		
+	public void setUpTests(String pbrowser, String pversion, String pos, String purl, String base_urls, String env, @Optional("optional value") int pwidth, @Optional("optional value") int pheight, @Optional("optional value") String pdevice) throws MalformedURLException {		
 		width = pwidth;
 		height = pheight;
 		browser = pbrowser;
@@ -36,10 +42,35 @@ public class HeaderVisualTest extends Base {
 		capabilities.setBrowserName(pbrowser);
 		capabilities.setVersion(pversion);
 		capabilities.setPlatform(setPlatform(pos));
+		baseUrls = base_urls.split(",");
+		siteEnv = new String(env);
 		
 		driver = new RemoteWebDriver(new URL(gridUrl), capabilities);
 		driver.manage().window().setSize(new Dimension(pwidth, pheight));
 	}
+
+	private int param;
+ 	
+    @Factory(dataProvider = "dataMethod")
+    public HeaderVisualTest(int param) {
+        this.param = param;
+    }
+
+    @DataProvider(name = "usesParameter")
+    public static Object[][] dataMethod(ITestContext context) {
+    	String base_urls = context.getCurrentXmlTest().getParameter("base_urls");
+    	String[] urls = base_urls.split(",");
+    	switch (urls.length) {
+    		case 1: 
+    			return new Object[][] { { 0 }};
+    		case 2: 
+    			return new Object[][] { { 0 }, { 1 }};
+        	case 3: 
+        		return new Object[][] { { 0 }, { 1 }, { 2 }};
+    		default: 
+    			return new Object[][] { { 0 }};
+    	}
+    }
 	
 	@Test(alwaysRun = true, groups = { "visual" }, priority=0)
 	public void eyesSetup() {
@@ -48,9 +79,11 @@ public class HeaderVisualTest extends Base {
 	
 	@Test(alwaysRun = true, groups = { "functional" }, priority=1)
 	public void goToHomepage() {
+		url = "http://"  + siteEnv + "." +baseUrls[param];
+		System.out.println("Checking "+url+" ...");
 		header = new Header(driver);
 		hp = new Homepage(driver);
-		hp.goToHomepage();
+		hp.goToHomepage(url);
 	}
 	
 	@Test(groups = { "functional" }, priority=3)

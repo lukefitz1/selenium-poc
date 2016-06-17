@@ -18,8 +18,8 @@ public class MyAccount extends Base {
 		super(driver);
 	}
 	
-	public void goToLogin() {
-		visit(acctLoginUrl);
+	public void goToLogin(String url) {
+		visit(url + acctLoginUrl);
 	}
 	
 	public Boolean loginFormDisplayed() {

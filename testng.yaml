@@ -1,55 +1,42 @@
 name: Selenium poc
+parameters:
+  pplatform: Platform.MAC
+  pbrowser: chrome
+  pversion: "50"
+  purl: "http://localhost:4444/wd/hub"
+  pos: mac
+  pdevice: desktop
+  pwidth: 1280
+  pheight: 800
+  env: "www"
 listeners:
   - utilities.Listener
-  
 tests:
   - name: Http status code test on homepage on chrome for mac
     parameters:
-      pplatform: Platform.MAC
-      pbrowser: chrome
-      pversion: "50"
-      purl: "http://localhost:4444/wd/hub"
-      pos: mac
-      pdevice: desktop
-      pwidth: 1280
-      pheight: 800 
+      env: "rmstaging"
+      base_urls: 
+        - "rebeccaminkoff.com/,uriminkoff.com/"
     classes:
       - tests.HttpStatusCodeTest
-#  - name: Checkout with test product on chrome for mac
-#    parameters:
-#      pplatform: Platform.MAC
-#      pbrowser: chrome
-#      pversion: "50"
-#      purl: "http://localhost:4444/wd/hub"
-#      pos: mac
-#      pdevice: desktop
-#      pwidth: 1280
-#      pheight: 800
-#    classes:
-#      - tests.CheckoutTest
+  - name: Checkout with test product on chrome for mac
+    parameters:
+      env: "rmstaging"
+      base_urls: 
+        - "rebeccaminkoff.com/,uriminkoff.com/"
+    classes:
+      - tests.CheckoutTest
   - name: Account login test on chrome for mac 
     parameters:
-      pplatform: Platform.MAC
-      pbrowser: chrome
-      pversion: "50"
-      purl: "http://localhost:4444/wd/hub"
-      pos: mac
-      pdevice: desktop
-      pwidth: 1280
-      pheight: 800
+      env: "rmstaging"
+      base_urls: 
+        - "uriminkoff.com/"
     classes:
       - tests.AccountLoginTest
   - name: Header visual test on chrome for mac 
     parameters:
-      pplatform: Platform.MAC
-      pbrowser: chrome
-      pversion: "50"
-      purl: "http://localhost:4444/wd/hub"
-      pos: mac
-      pdevice: desktop
-      pwidth: 1280
-      pheight: 800
+      env: "rmstaging"
+      base_urls: 
+        - "uriminkoff.com/"
     classes:
       - tests.HeaderVisualTest
-      
-      

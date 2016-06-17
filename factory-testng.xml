@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="Factory suite" verbose="1" >
+ <test name="Factory test" group-by-instances="true">
+ <classes>
+ <class name="tests.HttpStatusCodeTest" />
+ </classes>
+ </test>
+</suite>
