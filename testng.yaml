@@ -30,13 +30,13 @@ tests:
     parameters:
       env: "rmstaging"
       base_urls: 
-        - "uriminkoff.com/"
+        - "rebeccaminkoff.com/,uriminkoff.com/"
     classes:
       - tests.AccountLoginTest
   - name: Header visual test on chrome for mac 
     parameters:
       env: "rmstaging"
       base_urls: 
-        - "uriminkoff.com/"
+        - "rebeccaminkoff.com/,uriminkoff.com/"
     classes:
       - tests.HeaderVisualTest

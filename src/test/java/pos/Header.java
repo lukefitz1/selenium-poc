@@ -8,13 +8,15 @@ import pos.Checkout;
 public class Header extends Base {
 
 	By header = By.cssSelector("#header");
+	By cartOpen = By.cssSelector("#shopping-cart-table");
 	By miniCartIcon = By.cssSelector("#header > div.header-outer-wrapper > div > div.skip-links > div > div");
 	By miniCartBlock = By.cssSelector("#header-cart");
-	By miniCartBlockOpen = By.cssSelector("#header > div.header-outer-wrapper > div > div.skip-links > div > div > div.block.block-cart.skip-content.skip-active");
+	By miniCartBlockOpen = By.cssSelector("body > div.fancybox-wrap.fancybox-desktop.fancybox-type-html.minicart-wrap.fancybox-opened");//#header > div.header-outer-wrapper > div > div.skip-links > div > div > div.block.block-cart.skip-content.skip-active");
 	By miniCartBlockClosed = By.cssSelector("#header > div.header-outer-wrapper > div > div.skip-links > div > div > div.block.block-cart.skip-content:not(.skip-active)");
 	By miniCartCartButton = By.cssSelector("#header-cart > div.minicart-wrapper > div.minicart-actions > a");
 	By miniCartCheckoutButton = By.cssSelector("#header-cart > div.minicart-wrapper > div.minicart-actions > ul > li > a");
-	By miniCartSpinner = By.cssSelector("#header-cart > div.minicart-wrapper.loading");
+	By miniCartSpinner = By.cssSelector("body > div.fancybox-wrap.fancybox-desktop.fancybox-type-html.minicart-wrap.fancybox-opened");//#header-cart > div.minicart-wrapper.loading");
+
 	protected Checkout checkout;
 	
 	public Header(WebDriver driver) {
@@ -35,6 +37,9 @@ public class Header extends Base {
 	
 	public Boolean miniCartOpen() {
 		return waitForIsDisplayed(miniCartBlockOpen, 10);
+	}
+	public Boolean cartOpen() {
+		return waitForIsDisplayed(cartOpen, 10);
 	}
 	
 	public Boolean miniCartClosed() {

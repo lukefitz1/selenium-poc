@@ -84,34 +84,41 @@ public class CheckoutTest extends Base {
 		header = prod.addSimpleToCart();
 		Assert.assertTrue(header.miniCartOpen(), "Mini cart did not open");
 	}
-	
-	@Test(groups = { "functional" }, priority=9) 
-	public void waitForSpinnerToGoAway() {
-		Assert.assertTrue(header.miniCartSpinnerNotDisplayed(), "Spinner did not go away");
-	}	
-	
-	@Test(groups = { "functional" }, priority=12) 
-	public void miniCartCheckoutButtonCheck() {
-		Assert.assertTrue(header.miniCartCheckoutButtonDisplayed(), "Mini cart checkout button displayed");
+	@Test(groups = { "functional" }, priority=7)
+	public void viewCart() {
+		header = prod.viewCart();
+		Assert.assertTrue(header.cartOpen(), "Cart did not open");
 	}
-	
-	@Test(groups = { "functional" }, priority=15) 
-	public void clickMiniCartCheckoutButton() {
-		checkout = header.clickMiniCartCheckoutButton();
+	@Test(groups = { "functional" }, priority=8)
+	public void proceedToCheckout() {
+		checkout = prod.proceedToCheckout();
 		Assert.assertTrue(checkout.checkoutFormDisplayed(), "Checkout form is displayed");
-	}	
-	
-	@Test(groups = { "functional" }, priority=18) 
-	public void checkoutUrlCheck() {
-		Assert.assertEquals(driver.getCurrentUrl(), checkout.getBaseUrl() + checkout.getOneStepCheckoutUrl());
-	}	
-	
-	/*
-	 * 
-	 * Begin filling out checkout form 
-	 * 
-	 */
-	
+	}
+	@Test(groups = { "functional" }, priority=9)
+	public void proceedToCheckoutLogin() {
+		checkout = prod.proceedToCheckoutLogin();
+		Assert.assertTrue(checkout.shippingInfoFormDisplayed(), "Shipping Info form is displayed");
+	}
+	@Test(groups = { "functional" }, priority=10)
+	public void checkoutShippingInfo() {
+		checkout = prod.checkoutShippingInfo();
+		Assert.assertTrue(checkout.shippingMethodFormDisplayed(), "Shipping Method form is displayed");
+	}
+	@Test(groups = { "functional" }, priority=11)
+	public void checkoutShippingMethod() {
+		checkout = prod.checkoutShippingMethod();
+		Assert.assertTrue(checkout.paymentMethodFormDisplayed(), "Payment Method form is displayed");
+	}
+	@Test(groups = { "functional" }, priority=12)
+	public void checkoutPaymentMethod() {
+		checkout = prod.checkoutPaymentMethod();
+		Assert.assertTrue(checkout.reviewOrderFormDisplayed(), "Review Order form is displayed");
+	}
+	@Test(groups = { "functional" }, priority=13)
+	public void checkoutReviewOrder() {
+		checkout = prod.checkoutReviewOrder();
+		Assert.assertTrue(checkout.confirmationFormDisplayed(), "Confirmation/Order number form is displayed");
+	}
 	@AfterClass(alwaysRun = true)
 	public void tearDown() {	
 		driver.quit();

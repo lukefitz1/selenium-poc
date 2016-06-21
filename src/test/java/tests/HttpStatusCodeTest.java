@@ -41,42 +41,42 @@ public class HttpStatusCodeTest extends Base {
 		driver = new RemoteWebDriver(new URL(purl), capabilities);
 		driver.manage().window().setSize(new Dimension(pwidth, pheight));
 	}
-		private int param;
- 	
-	    @Factory(dataProvider = "dataMethod")
-	    public HttpStatusCodeTest(int param) {
-	        this.param = param;
-	    }
+	private int param;
+	
+    @Factory(dataProvider = "dataMethod")
+    public HttpStatusCodeTest(int param) {
+        this.param = param;
+    }
 
-	    @DataProvider(name = "usesParameter")
-	    public static Object[][] dataMethod(ITestContext context) {
-	    	String base_urls = context.getCurrentXmlTest().getParameter("base_urls");
-	    	String[] urls = base_urls.split(",");
-	    	switch (urls.length) {
-	    		case 1: 
-	    			return new Object[][] { { 0 }};
-	    		case 2: 
-	    			return new Object[][] { { 0 }, { 1 }};
-	        	case 3: 
-	        		return new Object[][] { { 0 }, { 1 }, { 2 }};
-	    		default: 
-	    			return new Object[][] { { 0 }};
-	    	}
-	    }
+    @DataProvider(name = "usesParameter")
+    public static Object[][] dataMethod(ITestContext context) {
+    	String base_urls = context.getCurrentXmlTest().getParameter("base_urls");
+    	String[] urls = base_urls.split(",");
+    	switch (urls.length) {
+    		case 1: 
+    			return new Object[][] { { 0 }};
+    		case 2: 
+    			return new Object[][] { { 0 }, { 1 }};
+        	case 3: 
+        		return new Object[][] { { 0 }, { 1 }, { 2 }};
+    		default: 
+    			return new Object[][] { { 0 }};
+    	}
+    }
 
-		@Test(groups = { "functional" }, priority=0)
-		public void goToHomepage() {
-			url = "http://"  + siteEnv + "." +baseUrls[param];
-			System.out.println("Checking "+url+" ...");
-			hp = new Homepage(driver);
-			http = new HttpResponseCode(driver);
-			hp.goToHomepage(url);
-		}
+	@Test(groups = { "functional" }, priority=0)
+	public void goToHomepage() {
+		url = "http://"  + siteEnv + "." +baseUrls[param];
+		System.out.println("Checking "+url+" ...");
+		hp = new Homepage(driver);
+		http = new HttpResponseCode(driver);
+		hp.goToHomepage(url);
+	}
 
-		@Test(groups = { "functional" }, priority=3)
-		public void httpStatusCheck() {
-			Assert.assertEquals(http.checkHttpResponseCode(driver.getCurrentUrl()), 200, "Response code is a 200!");
-		}
+	@Test(groups = { "functional" }, priority=3)
+	public void httpStatusCheck() {
+		Assert.assertEquals(http.checkHttpResponseCode(driver.getCurrentUrl()), 200, "Response code is a 200!");
+	}
 	
 	@AfterClass(alwaysRun = true)
 	public void tearDown() {
