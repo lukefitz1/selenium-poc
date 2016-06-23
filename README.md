@@ -41,6 +41,7 @@ order.
   * demonstrate a maintainable code base. e.g. support "onepage", "native", and "per-client" overrides in test configuration.
 1. _optional_ header comparisson (**visual test**)
   * ensure mobile layout is working (e.g. test for mobile mega-menu)
+  * see how taking a screenshot works -- e.g. take a screenshot and submit to comparison api
 
 
 ## inheritance model
