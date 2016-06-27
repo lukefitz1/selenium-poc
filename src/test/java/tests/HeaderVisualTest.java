@@ -25,6 +25,12 @@ public class HeaderVisualTest extends Base {
 	private DesiredCapabilities capabilities;
 	private Homepage hp;
 	private Header header;
+	private String os;
+	private String browser;
+	private String version;
+	private String device;
+	private int width;
+	private int height;
 	private String[] baseUrls;
 	private String url;
 	private String siteEnv;
@@ -45,13 +51,13 @@ public class HeaderVisualTest extends Base {
 		baseUrls = base_urls.split(",");
 		siteEnv = new String(env);
 		
-		driver = new RemoteWebDriver(new URL(gridUrl), capabilities);
+		driver = new RemoteWebDriver(new URL(purl), capabilities);
 		driver.manage().window().setSize(new Dimension(pwidth, pheight));
 	}
 
 	private int param;
  	
-    @Factory(dataProvider = "dataMethod")
+    @Factory(dataProvider = "usesParameter")
     public HeaderVisualTest(int param) {
         this.param = param;
     }
@@ -72,32 +78,33 @@ public class HeaderVisualTest extends Base {
     	}
     }
 	
-	@Test(alwaysRun = true, groups = { "visual" }, priority=0)
+	@Test(alwaysRun = true, groups = { "visual" }, priority = 0)
 	public void eyesSetup() {
+		System.out.println("Runing HeaderVisualTest...");
+		url = "http://"  + siteEnv + "." +baseUrls[param];
+		System.out.println("Checking "+url+" ...");
 		driver = eyes.open(driver, "Base header visual tests", "Base header tests in " + browser + " " + version + " on " + os + " " + device, new RectangleSize(width, height));
 	}
 	
-	@Test(alwaysRun = true, groups = { "functional" }, priority=1)
+	@Test(alwaysRun = true, groups = { "visual" }, priority = 1)
 	public void goToHomepage() {
-		url = "http://"  + siteEnv + "." +baseUrls[param];
-		System.out.println("Checking "+url+" ...");
 		header = new Header(driver);
 		hp = new Homepage(driver);
 		hp.goToHomepage(url);
 	}
 	
-	@Test(groups = { "functional" }, priority=3)
+	@Test(groups = { "visual" }, priority = 2)
 	public void headerCheck() {
 		Assert.assertTrue(header.headerDisplayed(), "Header is not displayed");
 	}
 	
-	@Test(groups = { "functional" }, priority=6)
+	@Test(groups = { "visual" }, priority = 3)
 	public void headerScreenshot() {
 		WebElement e = driver.findElement(header.getHeader());
 		this.checkRegWithShift(eyes, e, 0, "Header screenshot on homepage");
 	}
 	
-	@Test(alwaysRun = true, groups = { "functional" }, priority=9)
+	@Test(alwaysRun = true, groups = { "visual" }, priority = 4)
 	public void screenshotCompare() {
 		eyes.close();
 	}

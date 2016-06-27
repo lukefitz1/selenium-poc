@@ -1,0 +1,30 @@
+name: Selenium poc
+parameters:
+  pplatform: Platform.MAC
+  pbrowser: chrome
+  pversion: "50"
+  purl: "http://localhost:4444/wd/hub"
+  pos: mac
+  pdevice: desktop
+  pwidth: 1280
+  pheight: 800
+  env: "www"
+listeners:
+  - utilities.Listener
+tests:
+  - name: Visual test on homepage on chrome for mac
+    includedGroups: [ visual ]
+    parameters:
+      env: "rmstaging"
+      base_urls: 
+        - "uriminkoff.com/"
+    classes:
+      - tests.HeaderVisualTest
+  - name: Http status code test on homepage on chrome for mac
+    includedGroups: [ homepage ]
+    parameters:
+      env: "rmstaging"
+      base_urls: 
+        - "rebeccaminkoff.com/,uriminkoff.com/"
+    classes:
+      - tests.HttpStatusCodeTest

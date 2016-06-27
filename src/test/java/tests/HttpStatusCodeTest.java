@@ -28,24 +28,28 @@ public class HttpStatusCodeTest extends Base {
 	private String siteEnv;
 
 
-	@Parameters({"pbrowser", "pversion", "pos", "purl", "base_urls", "env","pwidth", "pheight"})
+	@Parameters({"pbrowser", "pversion", "pos", "pdevice", "purl", "base_urls", "env","pwidth", "pheight"})
 	@BeforeClass(alwaysRun = true)
-	public void setUpTests(String pbrowser, String pversion, String pos, String purl, String base_urls, String env, @Optional("optional value") int pwidth, @Optional("optional value") int pheight) throws MalformedURLException {		
+	public void setUpTests(String pbrowser, String pversion, String pos, String pdevice, String purl, String base_urls, String env, @Optional("optional value") int pwidth, @Optional("optional value") int pheight) throws MalformedURLException {		
 		browser = pbrowser;
 		capabilities = new DesiredCapabilities();
 		capabilities.setBrowserName(pbrowser);
+		//capabilities.setDevice(pdevice);
+		capabilities.setCapability("deviceName", pdevice);
 		capabilities.setVersion(pversion);
 		capabilities.setPlatform(setPlatform(pos));
 		baseUrls = base_urls.split(",");
 		siteEnv = new String(env);
 		driver = new RemoteWebDriver(new URL(purl), capabilities);
-		driver.manage().window().setSize(new Dimension(pwidth, pheight));
+		if ( !pos.equals("ios")) {
+			driver.manage().window().setSize(new Dimension(pwidth, pheight));
+		}
 	}
-	private int param;
+	private int index;
 	
-    @Factory(dataProvider = "dataMethod")
-    public HttpStatusCodeTest(int param) {
-        this.param = param;
+    @Factory(dataProvider = "usesParameter")
+    public HttpStatusCodeTest(int index) {
+        this.index = index;
     }
 
     @DataProvider(name = "usesParameter")
@@ -64,16 +68,17 @@ public class HttpStatusCodeTest extends Base {
     	}
     }
 
-	@Test(groups = { "functional" }, priority=0)
+	@Test(groups = { "functional", "homepage" }, invocationCount = 1, threadPoolSize = 1, priority = 0)
 	public void goToHomepage() {
-		url = "http://"  + siteEnv + "." +baseUrls[param];
+		System.out.println("Runing HttpStatusCodeTest...");
+		url = "http://"  + siteEnv + "." +baseUrls[index];
 		System.out.println("Checking "+url+" ...");
 		hp = new Homepage(driver);
 		http = new HttpResponseCode(driver);
 		hp.goToHomepage(url);
 	}
 
-	@Test(groups = { "functional" }, priority=3)
+	@Test(groups = { "functional", "homepage" }, priority = 1)
 	public void httpStatusCheck() {
 		Assert.assertEquals(http.checkHttpResponseCode(driver.getCurrentUrl()), 200, "Response code is a 200!");
 	}

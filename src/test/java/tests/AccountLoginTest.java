@@ -42,11 +42,11 @@ public class AccountLoginTest extends Base {
 		driver = new RemoteWebDriver(new URL(purl), capabilities);
 		driver.manage().window().setSize(new Dimension(pwidth, pheight));
 	}
-	private int param;
+	private int index;
  	
-	    @Factory(dataProvider = "dataMethod")
-	    public AccountLoginTest(int param) {
-	        this.param = param;
+	    @Factory(dataProvider = "usesParameter")
+	    public AccountLoginTest(int index) {
+	        this.index = index;
 
 	    }
 
@@ -66,27 +66,28 @@ public class AccountLoginTest extends Base {
 	    	}
 	    }
 	
-	@Test(groups = { "login" }, priority=0)
+	@Test(groups = { "login" }, priority = 0)
 	public void goToLoginPage() {
-		url = "http://" + siteEnv + "." + baseUrls[param];
+		System.out.println("Runing AccountLoginTest...");
+		url = "http://" + siteEnv + "." + baseUrls[index];
 		System.out.println("Checking "+url+" ...");
 		acct = new MyAccount(driver);
 		acct.goToLogin(url);
 	}
 	
-	@Test(groups = { "login" }, priority=0)
+	@Test(groups = { "login" }, priority = 1)
 	public void loginFormCheck() {
 		Assert.assertTrue(acct.loginFormDisplayed(), "Login / register form is not displayed");
 	}
 	
-	@Test(groups = { "login" }, priority=1)
+	@Test(groups = { "login" }, priority = 2)
 	public void login() {
 		acct.fillLoginForm("fet_lc_rm@blueacorn.com", "pass4fet_lc_rm");
 		acct.clickLoginButton();
 		Assert.assertTrue(acct.acctDashboardDisplayed(), "Account dashboard is not displayed");
 	}
 	
-	@Test(groups = { "login" }, priority=2) 
+	@Test(groups = { "login" }, priority = 3) 
 	public void testLoginGreeting() {
 		Assert.assertEquals(acct.getDashGreeting(), "HELLO, LOGIN CHECK BLUE ACORN INC.!");
 	}	
