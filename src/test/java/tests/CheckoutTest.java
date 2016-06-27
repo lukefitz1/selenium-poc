@@ -28,10 +28,13 @@ public class CheckoutTest extends Base {
 	private String[] baseUrls;
 	private String url;
 	private String siteEnv;
+	private String user;
+	private String pass;
+	private String payment;
 	
-	@Parameters({"pbrowser", "pversion", "pos", "purl", "base_urls", "env", "pwidth", "pheight"})
+	@Parameters({"pbrowser", "pversion", "pos", "purl", "base_urls", "env", "ppayment_type", "puser", "ppass", "pwidth", "pheight"})
 	@BeforeClass(alwaysRun = true)
-	public void setUpTests(String pbrowser, String pversion, String pos, String purl, String base_urls, String env, @Optional("optional value") int pwidth, @Optional("optional value") int pheight) throws MalformedURLException {		
+	public void setUpTests(String pbrowser, String pversion, String pos, String purl, String base_urls, String env, @Optional("Check/Mo") String ppayment_type, @Optional("") String puser, @Optional("") String ppass, @Optional("optional value") int pwidth, @Optional("optional value") int pheight) throws MalformedURLException {		
 		browser = pbrowser;
 		capabilities = new DesiredCapabilities();
 		capabilities.setBrowserName(pbrowser);
@@ -39,7 +42,9 @@ public class CheckoutTest extends Base {
 		capabilities.setPlatform(setPlatform(pos));
 		baseUrls = base_urls.split(",");
 		siteEnv = new String(env);
-		
+		user = puser;
+		pass = ppass;
+		payment = ppayment_type;
 		driver = new RemoteWebDriver(new URL(purl), capabilities);
 		driver.manage().window().setSize(new Dimension(pwidth, pheight));
 	}
@@ -97,7 +102,7 @@ public class CheckoutTest extends Base {
 	}
 	@Test(groups = { "functional" }, priority = 5)
 	public void proceedToCheckoutLogin() {
-		checkout = prod.proceedToCheckoutLogin();
+		checkout = prod.proceedToCheckoutLogin(user,pass);
 		Assert.assertTrue(checkout.shippingInfoFormDisplayed(), "Shipping Info form is displayed");
 	}
 	@Test(groups = { "functional" }, priority = 6)
@@ -112,7 +117,7 @@ public class CheckoutTest extends Base {
 	}
 	@Test(groups = { "functional" }, priority = 8)
 	public void checkoutPaymentMethod() {
-		checkout = prod.checkoutPaymentMethod();
+		checkout = prod.checkoutPaymentMethod(payment);
 		Assert.assertTrue(checkout.reviewOrderFormDisplayed(), "Review Order form is displayed");
 	}
 	@Test(groups = { "functional" }, priority = 9)

@@ -2,6 +2,7 @@ package pos;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.JavascriptExecutor;
 
 public class MyAccount extends Base {
 
@@ -44,6 +45,8 @@ public class MyAccount extends Base {
 	}
 	
 	public void clickLoginButton() {
+		//JavascriptExecutor jse = (JavascriptExecutor)driver;
+		//jse.executeScript("document.querySelector('#send2').click()");
 		click(loginButton);
 	}
 	

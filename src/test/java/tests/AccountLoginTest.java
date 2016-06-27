@@ -27,10 +27,13 @@ public class AccountLoginTest extends Base {
 	private String[] baseUrls;
 	private String url;
 	private String siteEnv;
+	private String user;
+	private String pass;
+	private String urlPrefix;
 	
-	@Parameters({"pbrowser", "pversion", "pos", "purl", "base_urls", "env","pwidth", "pheight"})
+	@Parameters({"pbrowser", "pversion", "pos", "purl", "base_urls", "env", "puser", "purl_prefix", "ppass", "pwidth", "pheight"})
 	@BeforeClass(alwaysRun = true)
-	public void setUpTests(String pbrowser, String pversion, String pos, String purl, String base_urls, String env, @Optional("optional value") int pwidth, @Optional("optional value") int pheight) throws MalformedURLException {		
+	public void setUpTests(String pbrowser, String pversion, String pos, String purl, String base_urls, String env, @Optional("") String puser, @Optional("http://") String purl_prefix, @Optional("") String ppass, @Optional("optional value") int pwidth, @Optional("optional value") int pheight) throws MalformedURLException {		
 		browser = pbrowser;
 		capabilities = new DesiredCapabilities();
 		capabilities.setBrowserName(pbrowser);
@@ -38,7 +41,9 @@ public class AccountLoginTest extends Base {
 		capabilities.setPlatform(setPlatform(pos));
 		baseUrls = base_urls.split(",");
 		siteEnv = new String(env);
-
+		user = puser;
+		pass = ppass;
+		urlPrefix = purl_prefix;
 		driver = new RemoteWebDriver(new URL(purl), capabilities);
 		driver.manage().window().setSize(new Dimension(pwidth, pheight));
 	}
@@ -69,7 +74,7 @@ public class AccountLoginTest extends Base {
 	@Test(groups = { "login" }, priority = 0)
 	public void goToLoginPage() {
 		System.out.println("Runing AccountLoginTest...");
-		url = "http://" + siteEnv + "." + baseUrls[index];
+		url = urlPrefix + siteEnv + "." + baseUrls[index];
 		System.out.println("Checking "+url+" ...");
 		acct = new MyAccount(driver);
 		acct.goToLogin(url);
@@ -82,7 +87,7 @@ public class AccountLoginTest extends Base {
 	
 	@Test(groups = { "login" }, priority = 2)
 	public void login() {
-		acct.fillLoginForm("fet_lc_rm@blueacorn.com", "pass4fet_lc_rm");
+		acct.fillLoginForm(user, pass);
 		acct.clickLoginButton();
 		Assert.assertTrue(acct.acctDashboardDisplayed(), "Account dashboard is not displayed");
 	}

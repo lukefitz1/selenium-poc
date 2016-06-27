@@ -9,6 +9,10 @@ parameters:
   pwidth: 1280
   pheight: 800
   env: "www"
+  ppayment_type: "Card"
+  purl_prefix: "http://"
+  puser: "devops@blueacorn.com"
+  ppass: "pass4devops"
 listeners:
   - utilities.Listener
 tests:
@@ -22,13 +26,18 @@ tests:
   - name: Checkout with test product on chrome for mac
     parameters:
       env: "rmstaging"
+      ppayment_type: "Check/Mo"
       base_urls: 
-        - "rebeccaminkoff.com/,uriminkoff.com/"
+        - "rebeccaminkoff.com/"
+      puser: "fet_cf_rm@blueacorn.com"
+      ppass: "pass4fet_cf_rm"
     classes:
       - tests.CheckoutTest
   - name: Account login test on chrome for mac 
     parameters:
       env: "rmstaging"
+      puser: "fet_lc_rm@blueacorn.com"
+      ppass: "pass4fet_lc_rm"
       base_urls: 
         - "rebeccaminkoff.com/,uriminkoff.com/"
     classes:
@@ -40,3 +49,13 @@ tests:
         - "rebeccaminkoff.com/,uriminkoff.com/"
     classes:
       - tests.HeaderVisualTest
+  - name: Account login test HAR on chrome for mac 
+    parameters:
+      env: "www"
+      purl_prefix: "https://"
+      puser: "fet_lc_har@blueacorn.com"
+      ppass: "pass4fet_lc_har"
+      base_urls: 
+        - "harney.com/"
+    classes:
+      - tests.AccountLoginTest

@@ -10,9 +10,7 @@ public class ProductPage extends Base {
 
 	String simpleTestProductUrl = "ba-test-simple-product";
 	String configTestProductUrlColor = "batest-config4";
-	String user = "fet_cf_rm@blueacorn.com";
-	String pass = "pass4fet_cf_rm";
-	String payment = "Check/Mo"; //"Card";
+	//String payment = "Check/Mo"; //"Card";
 	By userName = By.name("login[username]");
 	By passWord = By.name("login[password]");
 	By simpleAddToCart = By.cssSelector("#product_addtocart_form > div.add-to-cart-wrapper > div.add-to-box > div > div.add-to-cart-buttons > button");
@@ -55,7 +53,7 @@ public class ProductPage extends Base {
 		//click(viewCart);
 		return new Checkout(driver);
 	}
-	public Checkout proceedToCheckoutLogin() {
+	public Checkout proceedToCheckoutLogin(String user, String pass) {
 		type(user,userName);
 		type(pass, passWord);
 		click(chekoutLoginButton);
@@ -66,7 +64,6 @@ public class ProductPage extends Base {
 		driver.findElement(By.id("billing:firstname")).sendKeys("Nick");
         driver.findElement(By.id("billing:lastname")).sendKeys("Ata");
         driver.findElement(By.id("billing:company")).sendKeys("Blue Acorn");
-        //driver.findElement(By.id("billing:email")).sendKeys("fet_cf_rm@blueacorn.com");
         driver.findElement(By.id("billing:street1")).sendKeys("148 Williman Street");
         driver.findElement(By.id("billing:city")).sendKeys("Charleston");
         //Dropdown
@@ -81,18 +78,17 @@ public class ProductPage extends Base {
 	public Checkout checkoutShippingMethod() {
         JavascriptExecutor jse = (JavascriptExecutor)driver;
 		jse.executeScript("document.querySelector('#checkout-shipping-method-load > dl > dd > ul > li.block_s_method_ups_3DS > label').click()");
-		//driver.findElement(By.cssSelector("#checkout-shipping-method-load > dl > dd > ul > li.block_s_method_ups_3DS > label")).click();
 		driver.findElement(By.cssSelector("#shipping-continue-button")).click();
 		return new Checkout(driver);
 	}
-	public Checkout checkoutPaymentMethod() {
-		if ( payment == "Card") {
+	public Checkout checkoutPaymentMethod(String payment) {
+		if ( payment.equals("Card") ) {
 			driver.findElement(By.id("braintree_cc_number")).sendKeys("4242424242424242");
 	        driver.findElement(By.id("braintree_cc_cid")).sendKeys("123");
 	        driver.findElement(By.cssSelector("#braintree_expiration > option:nth-child(3)")).click();
 	        driver.findElement(By.cssSelector("#braintree_expiration_yr > option:nth-child(4)")).click();
 		}
-		if ( payment == "Check/Mo") {
+		if ( payment.equals("Check/Mo") ) {
 			driver.findElement(By.cssSelector("#checkout-payment-method-load > dt:nth-child(3) > label")).click();
 		}
 		driver.findElement(By.cssSelector("#payment-buttons-container > button")).click();

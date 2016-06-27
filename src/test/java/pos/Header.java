@@ -39,7 +39,7 @@ public class Header extends Base {
 		return waitForIsDisplayed(miniCartBlockOpen, 10);
 	}
 	public Boolean cartOpen() {
-		return waitForIsDisplayed(cartOpen, 10);
+		return waitForIsDisplayed(cartOpen, 30);
 	}
 	
 	public Boolean miniCartClosed() {
