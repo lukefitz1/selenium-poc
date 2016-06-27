@@ -1,0 +1,40 @@
+name: Selenium poc
+parameters:
+  pplatform: Platform.MAC
+  pbrowser: chrome
+  pversion: "50"
+  purl: "http://localhost:4444/wd/hub"
+  pos: mac
+  pdevice: desktop
+  pwidth: 1280
+  pheight: 800
+  env: "www"
+  ppayment_type: "Card"
+  purl_prefix: "http://"
+  puser: "devops@blueacorn.com"
+  ppass: "pass4devops"
+listeners:
+  - utilities.Listener
+tests:
+  - name: Http status code and Checkout tests for RM on chrome for mac
+    parameters:
+      ppaymnet_type: "Check/Mo"
+      puser: "fet_cf_rm@blueacorn.com"
+      ppass: "pass4fet_cf_rm"
+      env: "rmstaging"
+      base_urls: 
+        - "rebeccaminkoff.com/,uriminkoff.com/"
+    classes:
+      - tests.HttpStatusCodeTest
+      - tests.CheckoutTest
+  - name: Http status code and Checkout tests for VTB on chrome for mac
+    parameters:
+      ppaymnet_type: "Check/Mo"
+      puser: "fet_cf_pjj@blueacorn.com"
+      ppass: "pass4fet_cf_pjj"
+      env: "staging"
+      base_urls: 
+        - "pajamajeans.com/,pajamagram.com/,vermontteddybear.com/"
+    classes:
+      - tests.HttpStatusCodeTest
+      - tests.CheckoutTest

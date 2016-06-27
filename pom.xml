@@ -100,7 +100,7 @@
                 <configuration>
                 	<suiteXmlFiles>
                 		<!-- Default suite files if not being specified from mvn command line -->
-    					<suiteXmlFile>testng.yaml</suiteXmlFile>
+    					<suiteXmlFile>testng_rm_vtb.yaml</suiteXmlFile>
 			    	</suiteXmlFiles>
 			    	<systemPropertyVariables>
 			    		<env>${env}</env>
