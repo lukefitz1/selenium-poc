@@ -28,13 +28,10 @@ public class CheckoutTest extends Base {
 	private String[] baseUrls;
 	private String url;
 	private String siteEnv;
-	private String user;
-	private String pass;
-	private String payment;
-	
-	@Parameters({"pbrowser", "pversion", "pos", "purl", "base_urls", "env", "ppayment_type", "puser", "ppass", "pwidth", "pheight"})
+
+	@Parameters({"pbrowser", "pversion", "pos", "purl", "base_urls", "env", "pwidth", "pheight"})
 	@BeforeClass(alwaysRun = true)
-	public void setUpTests(String pbrowser, String pversion, String pos, String purl, String base_urls, String env, @Optional("Check/Mo") String ppayment_type, @Optional("") String puser, @Optional("") String ppass, @Optional("optional value") int pwidth, @Optional("optional value") int pheight) throws MalformedURLException {		
+	public void setUpTests(String pbrowser, String pversion, String pos, String purl, String base_urls, String env, @Optional("optional value") int pwidth, @Optional("optional value") int pheight) throws MalformedURLException {
 		browser = pbrowser;
 		capabilities = new DesiredCapabilities();
 		capabilities.setBrowserName(pbrowser);
@@ -42,9 +39,7 @@ public class CheckoutTest extends Base {
 		capabilities.setPlatform(setPlatform(pos));
 		baseUrls = base_urls.split(",");
 		siteEnv = new String(env);
-		user = puser;
-		pass = ppass;
-		payment = ppayment_type;
+
 		driver = new RemoteWebDriver(new URL(purl), capabilities);
 		driver.manage().window().setSize(new Dimension(pwidth, pheight));
 	}
@@ -71,53 +66,59 @@ public class CheckoutTest extends Base {
     			return new Object[][] { { 0 }};
     	}
     }
-
+    @Parameters({"purl_key"})
 	@Test(groups = { "functional" }, priority = 0)
-	public void goToSimpleTestProductPage() {
+	public void goToSimpleTestProductPage(String purl_key) {
 		System.out.println("Runing CheckoutTest...");
 		url = "http://"  + siteEnv + "." +baseUrls[param];
 		prod = new ProductPage(driver);
-		prod.goToSimpleTestProductPage(url);
+		prod.goToSimpleTestProductPage(url, purl_key);
 	}
-	
+	@Parameters({"psimple_add_to_cart_button_selector", "pemail_pop_up" })
 	@Test(groups = { "functional" }, priority = 1)
-	public void addToCartButtonCheck() {
-		Assert.assertTrue(prod.simpleAddToCartButtonDisplayed(), "Simple product add to cart page not displayed");
+	public void addToCartButtonCheck(String psimple_add_to_cart_button_selector, String pemail_pop_up) {
+		Assert.assertTrue(prod.simpleAddToCartButtonDisplayed(psimple_add_to_cart_button_selector, pemail_pop_up), "Simple product add to cart page not displayed");
 	}
-	
+	@Parameters({"psimple_add_to_cart_button_selector"})
 	@Test(groups = { "functional" }, priority = 2)
-	public void addProductToCart() {
-		header = prod.addSimpleToCart();
+	public void addProductToCart(String psimple_add_to_cart_button_selector) {
+		header = prod.addSimpleToCart(psimple_add_to_cart_button_selector);
 		Assert.assertTrue(header.miniCartOpen(), "Mini cart did not open");
 	}
+	@Parameters({"pview_cart_selector"})
 	@Test(groups = { "functional" }, priority = 3)
-	public void viewCart() {
-		header = prod.viewCart();
+	public void viewCart(String pview_cart_selector) {
+		header = prod.viewCart(pview_cart_selector);
 		Assert.assertTrue(header.cartOpen(), "Cart did not open");
 	}
+	@Parameters({ "pproceed_to_checkout_button_selector", "pproduct_pop_up", "pcheckout_form"})
 	@Test(groups = { "functional" }, priority = 4)
-	public void proceedToCheckout() {
-		checkout = prod.proceedToCheckout();
-		Assert.assertTrue(checkout.checkoutFormDisplayed(), "Checkout form is displayed");
+	public void proceedToCheckout(String pproceed_to_checkout_button_selector, String pproduct_pop_up, String pcheckout_form) {
+		checkout = prod.proceedToCheckout(pproceed_to_checkout_button_selector, pproduct_pop_up);
+		Assert.assertTrue(checkout.checkoutFormDisplayed(pcheckout_form), "Checkout form is displayed");
 	}
+	@Parameters({"puser", "ppass", "pcheckout_login_button_selector", "puser_user_name", "ppass_word_name"})
 	@Test(groups = { "functional" }, priority = 5)
-	public void proceedToCheckoutLogin() {
-		checkout = prod.proceedToCheckoutLogin(user,pass);
+	public void proceedToCheckoutLogin(String puser, String ppass, String pcheckout_login_button_selector, String puser_user_name, String ppass_word_name) {
+		checkout = prod.proceedToCheckoutLogin(puser, ppass, pcheckout_login_button_selector, puser_user_name, ppass_word_name);
 		Assert.assertTrue(checkout.shippingInfoFormDisplayed(), "Shipping Info form is displayed");
 	}
+	@Parameters({"pbilling_button_selector"})
 	@Test(groups = { "functional" }, priority = 6)
-	public void checkoutShippingInfo() {
-		checkout = prod.checkoutShippingInfo();
+	public void checkoutShippingInfo(String pbilling_button_selector) {
+		checkout = prod.checkoutShippingInfo(pbilling_button_selector);
 		Assert.assertTrue(checkout.shippingMethodFormDisplayed(), "Shipping Method form is displayed");
 	}
+	@Parameters({"pshipping_method_selector", "pshipping_button_selector"})
 	@Test(groups = { "functional" }, priority = 7)
-	public void checkoutShippingMethod() {
-		checkout = prod.checkoutShippingMethod();
+	public void checkoutShippingMethod(String pshipping_method_selector, String pshipping_button_selector) {
+		checkout = prod.checkoutShippingMethod(pshipping_method_selector, pshipping_button_selector);
 		Assert.assertTrue(checkout.paymentMethodFormDisplayed(), "Payment Method form is displayed");
 	}
+	@Parameters({"ppayment_type"})
 	@Test(groups = { "functional" }, priority = 8)
-	public void checkoutPaymentMethod() {
-		checkout = prod.checkoutPaymentMethod(payment);
+	public void checkoutPaymentMethod(String ppayment_type) {
+		checkout = prod.checkoutPaymentMethod(ppayment_type);
 		Assert.assertTrue(checkout.reviewOrderFormDisplayed(), "Review Order form is displayed");
 	}
 	@Test(groups = { "functional" }, priority = 9)

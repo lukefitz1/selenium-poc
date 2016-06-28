@@ -6,7 +6,7 @@ import org.openqa.selenium.WebDriver;
 public class Checkout extends Base {
 
 	String oneStepCheckoutUrl = "onestepcheckout/?___SID=U";
-	By checkoutForm = By.cssSelector("#checkoutSteps");
+	//By checkoutForm = By.cssSelector("#checkoutSteps");
 	By shippingInfoForm = By.cssSelector("#co-billing-form");
 	By shippingMethodForm = By.cssSelector("#billing-progress-opcheckout.complete");
 	By paymentMethodForm = By.cssSelector("#shipping_method-progress-opcheckout.complete");
@@ -17,8 +17,8 @@ public class Checkout extends Base {
 		super(driver);
 	}
 
-	public Boolean checkoutFormDisplayed() {
-		return waitForIsDisplayed(checkoutForm, 10);
+	public Boolean checkoutFormDisplayed(String checkoutForm) {
+		return waitForIsDisplayed(By.cssSelector(checkoutForm), 10);
 	}
 	public Boolean shippingInfoFormDisplayed() {
 		return waitForIsDisplayed(shippingInfoForm, 10);

@@ -9,6 +9,19 @@ parameters:
   pwidth: 1280
   pheight: 800
   env: "www"
+  purl_key: "ba-test"
+  pemail_pop_up: "#popup-subcription-closes-icon-1ad323a0-44ff-4c91-9442-27f243987e37"
+  pproduct_pop_up: "body > div.fancybox-overlay.fancybox-overlay-fixed > div > div > a"
+  psimple_add_to_cart_button_selector: "#product_addtocart_form > div.add-to-cart-wrapper > div.add-to-box > div > div.add-to-cart-buttons > button"
+  pview_cart_selector: "body > div.fancybox-wrap.fancybox-desktop.fancybox-type-html.minicart-wrap.fancybox-opened > div > div > div > div.cart.display-single-price > form > div.minicart-bottom > div.edit-bag > a"
+  pproceed_to_checkout_button_selector: "body > div.wrapper > div > div.main-container.col1-layout > div > div > div > div.page-title.title-buttons > ul > li > button:nth-child(1)"
+  pcheckout_form: "#checkoutSteps"
+  pcheckout_login_button_selector: "#checkout-step-login > div > div.col-2 > div > button"
+  pbilling_button_selector: "#billing-buttons-container > button.button.continue"
+  pshipping_button_selector: "#shipping-method-buttons-container > button.button.continue"
+  pshipping_method_selector: "#checkout-shipping-method-load > dl > dd > ul > li.block_s_method_ups_GND > label"
+  puser_user_name: "login[username]"
+  ppass_word_name: "login[password]"
   ppayment_type: "Card"
   purl_prefix: "http://"
   puser: "devops@blueacorn.com"
@@ -18,23 +31,30 @@ listeners:
 tests:
   - name: Http status code and Checkout tests for RM on chrome for mac
     parameters:
-      ppaymnet_type: "Check/Mo"
+      pemail_pop_up: "#popup-subcription-closes-icon-ed42dba1-1bb3-4320-a7be-8a63516f6bd8"
+      ppayment_type: "Check/Mo"
       puser: "fet_cf_rm@blueacorn.com"
       ppass: "pass4fet_cf_rm"
       env: "rmstaging"
+      pbilling_button_selector: "#billing-buttons-container > button"
+      pshipping_button_selector: "#shipping-continue-button"
+      purl_key: "ba-test-simple-product"
       base_urls: 
-        - "rebeccaminkoff.com/,uriminkoff.com/"
+        - "rebeccaminkoff.com/"
     classes:
       - tests.HttpStatusCodeTest
       - tests.CheckoutTest
   - name: Http status code and Checkout tests for VTB on chrome for mac
     parameters:
-      ppaymnet_type: "Check/Mo"
+      pview_cart_selector: "#header-cart > div.minicart-wrapper > div.minicart-actions > a"
+      pproceed_to_checkout_button_selector: "body > div.wrapper > div > div.main-container.col1-layout > div > div > div > div.page-title.title-buttons > ul > li > button"
+      pcheckout_login_button_selector: "#checkout-step-login > div > div.col-2 > div > div > button"
+      ppayment_type: "Check/Mo"
       puser: "fet_cf_pjj@blueacorn.com"
       ppass: "pass4fet_cf_pjj"
       env: "staging"
       base_urls: 
-        - "pajamajeans.com/,pajamagram.com/,vermontteddybear.com/"
+        - "pajamajeans.com/,vermontteddybear.com/"
     classes:
       - tests.HttpStatusCodeTest
       - tests.CheckoutTest
