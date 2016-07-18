@@ -13,7 +13,7 @@ import org.testng.annotations.Parameters;
 import com.applitools.eyes.Eyes;
 import com.applitools.eyes.Region;
 
-public class Base {
+public class Base extends Global {
 
 	protected Eyes eyes = new Eyes();
 	protected int num = 1;
@@ -21,6 +21,7 @@ public class Base {
 	protected String browser;
 	protected String version;
 	protected String device;
+	protected String url;
 	protected int width;
 	protected int height;
 	protected Platform platform;
@@ -30,11 +31,23 @@ public class Base {
 	@Parameters({"pbrowser", "pversion", "purl", "pos", "pdevice"})
 	@BeforeTest(alwaysRun = true)
 	public void setUp(String pbrowser, String pversion, String purl, String pos, @Optional("optional value") String pdevice) throws MalformedURLException {
-		//capabilities = new DesiredCapabilities();
+		System.out.println("Setup Test in Base.java tests file");
+		browser = pbrowser;
+		version = pversion;
+		os = pos;
+		device = pdevice;
+		url = purl;
 		gridUrl = String.format(purl);
 		
         // This is your api key, make sure you use it in all your tests.
         eyes.setApiKey("95dlJqlySCR2I46tb9J0HBHdlQjAq5JSN66Y4BcmQig110"); //<-- BA gmail account
+        
+        width = Global.getDesktopWidth();
+		height = Global.getDesktopHeight();
+	}
+	
+	public void classLoader() {
+		
 	}
 	
 	protected Platform setPlatform(String os) {
