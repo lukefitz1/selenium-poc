@@ -1,8 +1,6 @@
 package utilities;
 import org.openqa.selenium.WebDriver;
-
 import com.jayway.restassured.response.Response;
-
 import static com.jayway.restassured.RestAssured.given;
 
 public class HttpResponseCode {
