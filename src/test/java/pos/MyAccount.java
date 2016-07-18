@@ -2,25 +2,56 @@ package pos;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.JavascriptExecutor;
+
+import tests.Global;
 
 public class MyAccount extends Base {
 
 	String acctLoginUrl = "customer/account/login/";
 	String acctDashUrl = "customer/account/";
-	By accountLoginForm = By.cssSelector("#login-form");
-	By loginEmail = By.cssSelector("#email");
-	By loginPw = By.cssSelector("#pass");
-	By loginButton = By.cssSelector("#send2");
-	By acctDashName = By.cssSelector("body > div.wrapper > div.page > div.main-container.col2-left-layout > div > div.col-main > div > div > div.welcome-msg > p.hello > strong");
-	By acctDash = By.cssSelector("body > div.wrapper > div.page > div.main-container.col2-left-layout > div > div.col-main > div > div");
+	By accountLoginForm;
+	By loginEmail;
+	By loginPw;
+	By loginButton;
+	By acctDash;
+	By acctDashName;;
 	
 	public MyAccount(WebDriver driver) {
 		super(driver);
+		setLoginForm();
+		setLoginEmail();
+		setLoginPw();
+		setLoginButton();
+		setAcctDash();
+		setAcctDashName();	
 	}
 	
-	public void goToLogin(String url) {
-		visit(url + acctLoginUrl);
+	private void setLoginEmail() {
+		loginEmail = By.cssSelector(Global.getLoginEmail());
+	}
+	
+	private void setLoginPw() {
+		loginPw = By.cssSelector(Global.getLoginPw());	
+	}
+	
+	private void setLoginButton() {
+		loginButton = By.cssSelector(Global.getLoginButton());
+	}
+	
+	private void setAcctDash() {
+		acctDash = By.cssSelector(Global.getAcctDash());
+	}
+	
+	private void setAcctDashName() {
+		acctDashName = By.cssSelector(Global.getAcctDashName());
+	}
+	
+	private void setLoginForm() {
+		accountLoginForm = By.cssSelector(Global.getAcctLoginForm());
+	}
+	
+	public void goToLogin() {
+		visit(acctLoginUrl);
 	}
 	
 	public Boolean loginFormDisplayed() {
@@ -28,11 +59,20 @@ public class MyAccount extends Base {
 	}
 	
 	public Boolean loginEmailFieldDisplayed() {
+		System.out.println("Email selector: " + loginEmail);
 		return waitForIsDisplayed(loginEmail, 10);
+	}
+	
+	public Boolean loginEmailFieldExists() {
+		return isPresent(loginEmail);
 	}
 	
 	public Boolean loginPwFieldDisplayed() {
 		return waitForIsDisplayed(loginPw, 10);
+	}
+	
+	public Boolean loginButtonDisplayed() {
+		return waitForIsDisplayed(loginButton, 10);
 	}
 	
 	public Boolean acctDashboardDisplayed() {
@@ -45,8 +85,6 @@ public class MyAccount extends Base {
 	}
 	
 	public void clickLoginButton() {
-		//JavascriptExecutor jse = (JavascriptExecutor)driver;
-		//jse.executeScript("document.querySelector('#send2').click()");
 		click(loginButton);
 	}
 	
