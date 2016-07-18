@@ -1,6 +1,11 @@
 package tests;
+
+import io.appium.java_client.ios.IOSDriver;
+import io.appium.java_client.remote.MobileCapabilityType;
+
 import java.net.MalformedURLException;
 import java.net.URL;
+
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -8,13 +13,9 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import org.testng.annotations.Factory;
-import org.testng.annotations.DataProvider;
-import org.testng.ITestContext;
-import pos.Homepage;
+
+import pos.*;
 import utilities.HttpResponseCode;
 
 public class HttpStatusCodeTest extends Base {
@@ -23,68 +24,65 @@ public class HttpStatusCodeTest extends Base {
 	private DesiredCapabilities capabilities;
 	private Homepage hp;
 	private HttpResponseCode http;
-	private String[] baseUrls;
-	private String url;
-	private String siteEnv;
 
-
-	@Parameters({"pbrowser", "pversion", "pos", "pdevice", "purl", "base_urls", "env","pwidth", "pheight"})
 	@BeforeClass(alwaysRun = true)
-	public void setUpTests(String pbrowser, String pversion, String pos, String pdevice, String purl, String base_urls, String env, @Optional("optional value") int pwidth, @Optional("optional value") int pheight) throws MalformedURLException {		
-		browser = pbrowser;
+	public void setUpTests() throws MalformedURLException {		
 		capabilities = new DesiredCapabilities();
-		capabilities.setBrowserName(pbrowser);
-		//capabilities.setDevice(pdevice);
-		capabilities.setCapability("deviceName", pdevice);
-		capabilities.setVersion(pversion);
-		capabilities.setPlatform(setPlatform(pos));
-		baseUrls = base_urls.split(",");
-		siteEnv = new String(env);
-		driver = new RemoteWebDriver(new URL(purl), capabilities);
-		if ( !pos.equals("ios")) {
-			driver.manage().window().setSize(new Dimension(pwidth, pheight));
+		
+		if (device.equalsIgnoreCase("desktop")) {
+			System.out.println("Desktop tests");
+			
+			capabilities.setBrowserName(browser);
+			capabilities.setVersion(version);
+			capabilities.setPlatform(setPlatform(os));
+			
+			driver = new RemoteWebDriver(new URL(gridUrl), capabilities);
+			driver.manage().window().setSize(new Dimension(width, height));
+		}
+		else if (device.equalsIgnoreCase("iPhone 6")){
+			System.out.println("mobile tests");
+			
+			capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, setPlatform(os));
+			capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, browser);
+			capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, version);
+			capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, device);
+			
+			System.out.println(gridUrl);
+			driver = new IOSDriver(new URL(gridUrl), capabilities);
 		}
 	}
-	private int index;
 	
-    @Factory(dataProvider = "usesParameter")
-    public HttpStatusCodeTest(int index) {
-        this.index = index;
-    }
-
-    @DataProvider(name = "usesParameter")
-    public static Object[][] dataMethod(ITestContext context) {
-    	String base_urls = context.getCurrentXmlTest().getParameter("base_urls");
-    	String[] urls = base_urls.split(",");
-    	switch (urls.length) {
-    		case 1: 
-    			return new Object[][] { { 0 }};
-    		case 2: 
-    			return new Object[][] { { 0 }, { 1 }};
-        	case 3: 
-        		return new Object[][] { { 0 }, { 1 }, { 2 }};
-    		default: 
-    			return new Object[][] { { 0 }};
-    	}
-    }
-
-	@Test(groups = { "functional", "homepage" }, invocationCount = 1, threadPoolSize = 1, priority = 0)
+	@Test(groups = { "functional" }, priority=0)
 	public void goToHomepage() {
-		System.out.println("Runing HttpStatusCodeTest...");
-		url = "http://"  + siteEnv + "." +baseUrls[index];
-		System.out.println("Checking "+url+" ...");
 		hp = new Homepage(driver);
 		http = new HttpResponseCode(driver);
-		hp.goToHomepage(url);
+		hp.goToHomepage();
 	}
-
-	@Test(groups = { "functional", "homepage" }, priority = 1)
+	
+	@Test(groups = { "functional" }, priority=3)
 	public void httpStatusCheck() {
 		Assert.assertEquals(http.checkHttpResponseCode(driver.getCurrentUrl()), 200, "Response code is a 200!");
 	}
 	
+	@Test(groups = { "functional" }, priority=6)
+	public void homepageStringPresent() {
+		Assert.assertTrue(hp.homepageStringDisplayed(), "Homepage string is displayed");
+	}
+	
+	@Test(groups = { "functional" }, priority=9)
+	public void homepageStringCheck() {
+		String a = hp.getHomepageStringText().toLowerCase();
+		String b = hp.getHomepageString().toLowerCase(); 
+		Assert.assertEquals(a, b, "Homepage string matches expected value");
+	}
+	
+	@Test(groups = { "visual" }, priority=12)
+	public void visualTest() {
+		System.out.println("THIS IS A TEST IN THE VISUAL GROUP - THIS IS A TEST IN THE VISUAL GROUP - THIS IS A TEST IN THE VISUAL GROUP");
+	}
+	
 	@AfterClass(alwaysRun = true)
-	public void tearDown() {
+	public void tearDown() {	
 		driver.quit();
 	}
 }
