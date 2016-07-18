@@ -3,39 +3,76 @@ package pos;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
+import tests.Global;
+
 public class Checkout extends Base {
 
-	String oneStepCheckoutUrl = "onestepcheckout/?___SID=U";
-	//By checkoutForm = By.cssSelector("#checkoutSteps");
-	By shippingInfoForm = By.cssSelector("#co-billing-form");
-	By shippingMethodForm = By.cssSelector("#billing-progress-opcheckout.complete");
-	By paymentMethodForm = By.cssSelector("#shipping_method-progress-opcheckout.complete");
-	By reviewOrderForm = By.cssSelector("#payment-progress-opcheckout.complete");
-	By confirmationForm = By.cssSelector("body > div.wrapper > div > div.main-container.col1-layout > div > div > div.success-order-number");
+	String checkoutUrl;
+	By continueAsGuestButton;
+	By checkoutPageTitle;
+	By billingForm;
+	By billingFName;
+	By billingLName;
+	By billingEmail;
+	By billingAddress1;
+	By billingAddress2;
+	By billingCity;
+	By billingStateSelect;
+	By billingZip;
+	By billingPhone;
+	By billingContinueButton;
 	
 	public Checkout(WebDriver driver) {
 		super(driver);
+		
+		checkoutUrl = Global.getCheckoutUrl();
+		continueAsGuestButton = By.cssSelector(Global.getContinueAsGuestButton());
+		checkoutPageTitle = By.cssSelector(Global.getCheckoutPageTitle());
+		billingForm = By.cssSelector(Global.getBillingForm());
+		billingFName = By.cssSelector(Global.getBillingFName());
+		billingLName = By.cssSelector(Global.getBillingLName());
+		billingEmail = By.cssSelector(Global.getBillingEmail());
+		billingAddress1 = By.cssSelector(Global.getBillingAddress1());
+		billingAddress2 = By.cssSelector(Global.getBillingAddress2());
+		billingCity = By.cssSelector(Global.getBillingCity());
+		billingStateSelect = By.cssSelector(Global.getBillingStateSelect());
+		billingZip = By.cssSelector(Global.getBillingZip());
+		billingPhone = By.cssSelector(Global.getBillingPhone());
+		billingContinueButton = By.cssSelector(Global.getBillingContinueButton());
 	}
 
-	public Boolean checkoutFormDisplayed(String checkoutForm) {
-		return waitForIsDisplayed(By.cssSelector(checkoutForm), 10);
+	public void goToCheckout() {
+		visit(checkoutUrl);
 	}
-	public Boolean shippingInfoFormDisplayed() {
-		return waitForIsDisplayed(shippingInfoForm, 10);
+	
+	public String getCheckoutUrl() {
+		return checkoutUrl;
 	}
-	public String getOneStepCheckoutUrl() {
-		return oneStepCheckoutUrl;
+	
+	public Boolean checkoutPageTitleDisplayed() {
+		return waitForIsDisplayed(checkoutPageTitle);
 	}
-	public Boolean shippingMethodFormDisplayed() {
-		return waitForIsDisplayed(shippingMethodForm, 10);
+	
+	public void clickContinueAsGuestButton() {
+		click(continueAsGuestButton);
 	}
-	public Boolean paymentMethodFormDisplayed() {
-		return waitForIsDisplayed(paymentMethodForm, 10);
+	
+	public Boolean billingFormDisplayed() {
+		return waitForIsDisplayed(billingForm);
 	}
-	public Boolean reviewOrderFormDisplayed() {
-		return waitForIsDisplayed(reviewOrderForm, 10);
+	
+	public void fillBillingForm() {
+		type("Luke", billingFName);
+		type("Fitzgerald", billingLName);
+		type("luke.fitzgerald@blueacorn.com", billingEmail);
+		type("145 Williman St", billingAddress1);
+		type("145 Williman St", billingAddress2);
+		type("Charleston", billingCity);
+		type("29403", billingZip);
+		type("8779442583", billingPhone);
 	}
-	public Boolean confirmationFormDisplayed() {
-		return waitForIsDisplayed(confirmationForm, 10);
+	
+	public void clickBillingContinueButton() {
+		click(billingContinueButton);
 	}
 }

@@ -7,6 +7,8 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import tests.Global;
+
 public class Base {
 
 	protected WebDriver driver;
@@ -15,27 +17,26 @@ public class Base {
 	public Base(WebDriver driver) {
 		this.driver = driver;
 	}
-
+	
 	public String getBaseUrl() {
-		if (System.getProperty("env").equalsIgnoreCase("local")) {
-			return "http://rmstaging.rebeccaminkoff.com/";
-		}
-		else if (System.getProperty("env").equalsIgnoreCase("stage")) {
-			return "http://rmstaging.rebeccaminkoff.com/";		
-		}
-		else {
-			return "http://rmstaging.rebeccaminkoff.com/";
-		}
+		return baseUrl;
 	}
 	
 	public void visit(String url) {
-		if (url.contains("http")) {
-			driver.get(url);
-		} 
+		baseUrl = Global.getBaseUrl();
+		driver.get(baseUrl + url);
+	}
+	
+	public void visit(String url, Boolean ext) {
+		baseUrl = Global.getBaseUrl();
+		
+		if (ext) {
+			driver.get(baseUrl + url + ".html");
+		}
 		else {
-			baseUrl = getBaseUrl();
 			driver.get(baseUrl + url);
 		}
+		
 	}
 	
 	public WebElement find(By locator) {

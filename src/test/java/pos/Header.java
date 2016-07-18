@@ -2,71 +2,61 @@ package pos;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
-import pos.Checkout;
+import tests.Global;
 
 public class Header extends Base {
 
+	String searchBarStr = "search";
 	By header = By.cssSelector("#header");
-	By cartOpen = By.cssSelector("#shopping-cart-table");
-	By miniCartIcon = By.cssSelector("#header > div.header-outer-wrapper > div > div.skip-links > div > div");
-	By miniCartBlock = By.cssSelector("#header-cart");
-	By miniCartBlockOpen = By.cssSelector("body > div.fancybox-wrap.fancybox-desktop.fancybox-type-html.minicart-wrap.fancybox-opened");//#header > div.header-outer-wrapper > div > div.skip-links > div > div > div.block.block-cart.skip-content.skip-active");
-	By miniCartBlockClosed = By.cssSelector("#header > div.header-outer-wrapper > div > div.skip-links > div > div > div.block.block-cart.skip-content:not(.skip-active)");
-	By miniCartCartButton = By.cssSelector("#header-cart > div.minicart-wrapper > div.minicart-actions > a");
-	By miniCartCheckoutButton = By.cssSelector("#header-cart > div.minicart-wrapper > div.minicart-actions > ul > li > a");
-	By miniCartSpinner = By.cssSelector("body > div.fancybox-wrap.fancybox-desktop.fancybox-type-html.minicart-wrap.fancybox-opened");//#header-cart > div.minicart-wrapper.loading");
-
-	protected Checkout checkout;
+	By searchBar = By.cssSelector("#search");
+	By searchButton = By.cssSelector("#search_mini_form > div.input-box > button");
+	By miniCart = By.cssSelector("#header-cart");
+	By miniCartCheckoutButton;
+	By miniCartWrapper;
 	
 	public Header(WebDriver driver) {
 		super(driver);
+		getMiniCartWrapper();
+		getMiniCartCheckoutButton();
+	}
+
+	private void getMiniCartWrapper() {
+		miniCartWrapper = By.cssSelector(Global.getMiniCartWrapper());
+	}
+	
+	private void getMiniCartCheckoutButton() {
+		miniCartCheckoutButton = By.cssSelector(Global.getMiniCartCheckoutButton());
 	}
 	
 	public Boolean headerDisplayed() {
 		return waitForIsDisplayed(header, 10);
 	}
 	
-	public By getHeader() {
-		return header;
+	public Boolean searchBarDisplayed() {
+		return waitForIsDisplayed(searchBar, 10);
 	}
 	
-	public By getMiniCartBlock() {
-		return miniCartBlock;
+	public By getSearchBar() {
+		return searchBar;
 	}
 	
-	public Boolean miniCartOpen() {
-		return waitForIsDisplayed(miniCartBlockOpen, 10);
-	}
-	public Boolean cartOpen() {
-		return waitForIsDisplayed(cartOpen, 30);
-	}
-	
-	public Boolean miniCartClosed() {
-		return waitForIsNotDisplayed(miniCartBlockOpen, 10);
+	public void searchFor(String searchTerm) {
+		type(searchTerm, searchBar);
+		WebElement e = driver.findElement(searchBar);
+		e.submit();
 	}
 	
-	public Boolean miniCartCartButtonDisplayed() {
-		return waitForIsDisplayed(miniCartCartButton);
+	public Boolean miniCartDisplayed() {
+		return waitForIsDisplayed(miniCartWrapper);
 	}
 	
 	public Boolean miniCartCheckoutButtonDisplayed() {
 		return waitForIsDisplayed(miniCartCheckoutButton);
 	}
 	
-	public Boolean miniCartSpinnerDisplayed() {
-		return waitForIsDisplayed(miniCartSpinner, 10);
-	}
-	
-	public Boolean miniCartSpinnerNotDisplayed() {
-		return waitForIsNotDisplayed(miniCartSpinner, 10);
-	}
-	
-	public Checkout clickMiniCartCheckoutButton() {
+	public void clickMiniCartCheckoutButton() {
 		click(miniCartCheckoutButton);
-		checkout = new Checkout(driver);
-		return checkout;
 	}
-
 }
-
