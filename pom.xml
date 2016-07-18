@@ -3,72 +3,41 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>blueacorn</groupId>
-  <artifactId>selenium-poc</artifactId>
+  <artifactId>mvn-framework</artifactId>
   <version>1</version>
   <packaging>jar</packaging>
 
-  <name>selenium-poc</name>
+  <name>mvn-framework</name>
+  <url>http://maven.apache.org</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <testng.version>6.9.10</testng.version>
-	<selenium.version>2.45.0</selenium.version>
   </properties>
 
-  <dependencies> 
-    <dependency>
-	  <groupId>org.testng</groupId>
-	  <artifactId>testng</artifactId>
-	  <version>6.9.10</version>
-	  <scope>test</scope>
-	</dependency>
+  <dependencies>
     
     <dependency>
-	  <groupId>io.appium</groupId>
-	  <artifactId>java-client</artifactId>
-	  <version>4.0.0</version>
-	</dependency>
-
-	<dependency>
-		<groupId>org.seleniumhq.selenium</groupId>
-		<artifactId>selenium-java</artifactId>
-		<version>2.45.0</version>
+	    <groupId>org.testng</groupId>
+	    <artifactId>testng</artifactId>
+	    <version>6.9.10</version>
 	</dependency>
 	
 	<dependency>
-		<groupId>net.mindengine</groupId>
-		<artifactId>galen</artifactId>
-		<version>1.6.3</version>
+	    <groupId>org.seleniumhq.selenium</groupId>
+	    <artifactId>selenium-java</artifactId>
+	    <version>2.53.0</version>
 	</dependency>
-
+	
 	<dependency>
-		<groupId>net.lightbody.bmp</groupId>
-		<artifactId>browsermob-proxy</artifactId>
-		<version>2.0.0</version>
-	</dependency>	
-
-	<dependency>
-		<groupId>biz.neustar</groupId>
-		<artifactId>browsermob-proxy</artifactId>
-		<version>2.0-beta-7</version>
-	</dependency>
-    
-    <dependency>
 		<groupId>com.applitools</groupId>
 		<artifactId>eyes-selenium-java</artifactId>
 		<version>RELEASE</version>
 	</dependency>
-
-	<dependency>
-		<groupId>mysql</groupId>
-		<artifactId>mysql-connector-java</artifactId>
-		<version>5.1.38</version>
-	</dependency>
 	
 	<dependency>
-		<groupId>com.jcraft</groupId>
-		<artifactId>jsch</artifactId>
-		<version>0.1.53</version>
+	    <groupId>org.yaml</groupId>
+	    <artifactId>snakeyaml</artifactId>
+	    <version>1.15</version>
 	</dependency>
 	
 	<dependency>
@@ -78,33 +47,53 @@
 	</dependency>
 	
 	<dependency>
-	    <groupId>org.apache.httpcomponents</groupId>
-	    <artifactId>httpclient</artifactId>
-	    <version>4.5.2</version>
+	    <groupId>org.json</groupId>
+	    <artifactId>json</artifactId>
+	    <version>20160212</version>
 	</dependency>
+	
 	<dependency>
-	   <groupId>org.yaml</groupId>
-	   <artifactId>snakeyaml</artifactId>
-	   <version>1.7</version>
+	    <groupId>com.google.code.gson</groupId>
+	    <artifactId>gson</artifactId>
+	    <version>2.6.2</version>
 	</dependency>
-
+	
+	<dependency>
+	  <groupId>com.fasterxml.jackson.dataformat</groupId>
+	  <artifactId>jackson-dataformat-yaml</artifactId>
+	  <version>2.7.4</version>
+	</dependency>
+    
+    <dependency>
+	    <groupId>com.esotericsoftware.yamlbeans</groupId>
+	    <artifactId>yamlbeans</artifactId>
+	    <version>1.09</version>
+	</dependency>
+    
   </dependencies>
-  
+
   <build>
 	  <pluginManagement>
 	  	<plugins>
 	  		<plugin>
 	  			<groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.19</version>
+                <version>2.18.1</version>
                 <configuration>
+                	<reuseForks>false</reuseForks>
+        			<forkCount>1</forkCount>
+                	
                 	<suiteXmlFiles>
-                		<!-- Default suite files if not being specified from mvn command line -->
-    					<suiteXmlFile>testng_rm_vtb.yaml</suiteXmlFile>
+                		<suiteXmlFile>config.yaml</suiteXmlFile>
 			    	</suiteXmlFiles>
+			    	
 			    	<systemPropertyVariables>
 			    		<env>${env}</env>
+			    		<env>${client}</env>
+			    		<env>${excludeGroup}</env>
+			    		<env>${numSearches}</env>
 			    	</systemPropertyVariables>
+			    	
                 </configuration>
 	  		</plugin>
 	  	</plugins>
