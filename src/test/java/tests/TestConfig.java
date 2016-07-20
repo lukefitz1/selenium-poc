@@ -10,7 +10,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -50,25 +49,25 @@ public class TestConfig extends Global {
 		if (System.getProperty("excludeGroup") != null) {
 			excludeGroup = System.getProperty("excludeGroup");
 			excludedGroupsExist = true;
-			System.out.println("Got an exclude group: " + excludeGroup);
+			//System.out.println("Got an exclude group: " + excludeGroup);
 		}
 		
 		if (System.getProperty("numSearches") != null) {
 			numSearches = System.getProperty("numSearches");
 			numSearchesExist = true;
 			newNumSearches = Integer.parseInt(numSearches);
-			System.out.println("Got a num search: " + numSearches);
+			//System.out.println("Got a num search: " + numSearches);
 		}
 		
 		if (System.getProperty("env").isEmpty() || System.getProperty("env") == null) {
 			env = "stage";
-//			System.out.println("Env1: " + env);
-//			System.out.println("Number of searches: " + numSearches);
+			//System.out.println("Env1: " + env);
+			//System.out.println("Number of searches: " + numSearches);
 		}
 		else if (System.getProperty("env") != null) {
 			env = System.getProperty("env");
-//			System.out.println("Env2: " + env);
-//			System.out.println("Number of searches: " + numSearches);
+			//System.out.println("Env2: " + env);
+			//System.out.println("Number of searches: " + numSearches);
 		}
 		
 		//The next group of tests are all reading and grabbing information out of the client_config.yaml file,
@@ -87,7 +86,6 @@ public class TestConfig extends Global {
 			
 			Object val1 = obj.get(env);			
 			Object url_list = obj.get("urls");
-			//Object selectors_list = obj.get("selectors");
 
 			Map<String, String> obj2 = (Map<String, String>) val;		
 			ajax_minicart = obj2.get("ajax_minicart");
@@ -179,62 +177,41 @@ public class TestConfig extends Global {
 					InputStream input_base = new FileInputStream(new File("base_tests.yaml"));
 					InputStream input_client = new FileInputStream(new File("src/test/java/tests/" + client + "/" + client + "_tests.yaml"));
 					
-					//Search base tests file for tests, enter each test name into a string array
+					//read in base / client test files
 					Yaml y = new Yaml();
 					ArrayList base_list = (ArrayList) y.load(input_base);
 					ArrayList client_list = (ArrayList) y.load(input_client);
-					
-					LinkedHashMap<String, String> tm = new LinkedHashMap<String, String>();
 					ArrayList<LinkedHashMap<String, String>> tests_array = new ArrayList<LinkedHashMap<String, String>>();
 					
 					int ct = base_list.size();
 					int ct2 = client_list.size();
 					int flag = 0; 
 					
+					//Loop through both tests files to see if there is a duplicate test name
 					for (int i = 0; i < ct; i++) {
-						LinkedHashMap<String, String> x =  (LinkedHashMap<String, String>) base_list.get(i);
-						//System.out.println(base_list.get(i));
+						LinkedHashMap<String, String> base_test =  (LinkedHashMap<String, String>) base_list.get(i);
 						
 						for (int j = 0; j < ct2; j++) {
-							LinkedHashMap<String, String> z =  (LinkedHashMap<String, String>) client_list.get(j);
-							//System.out.println(client_list.get(i));
+							LinkedHashMap<String, String> client_test =  (LinkedHashMap<String, String>) client_list.get(j);
 							
-							if (x.get("name").equalsIgnoreCase(z.get("name"))) {
+							//set flag if the base set file and the client test file contain a test with the same name
+							if (base_test.get("name").equalsIgnoreCase(client_test.get("name"))) {
 								flag = 1;
-								//System.out.println("Found a match");
 							}
 						}
 						
 						if (flag == 0) {		
-							tm.put("name", x.get("name"));
-							tm.put("parameters", x.get("parameters"));
-							tm.put("classes", x.get("classes"));
-							
-							//Add in functionality to exclude groups via parameter
-							if (excludedGroupsExist) {
-								//tm.put("excludedGroups", x.get("excludedGroups"));
-								tm.put("excludedGroups", excludeGroup);
-							}
-							
-							tests_array.add(x);
+							//add base test to tests array if there was not a duplicate test in the client test file
+							tests_array.add(base_test);
 						}
+						
+						flag = 0;
 					}
 					
-					//exclude test group
-					//doesn't work yet
 					for (int i = 0; i < ct2; i++) {
-						LinkedHashMap<String, String> z =  (LinkedHashMap<String, String>) client_list.get(i);
-						tm.put("name", z.get("name"));
-						tm.put("parameters", z.get("parameters"));
-						tm.put("classes", z.get("classes"));					
-						
-						//Add in functionality to exclude groups via parameter
-						if (excludedGroupsExist) {
-							//tm.put("excludedGroups", z.get("excludedGroups"));
-							tm.put("excludedGroups", excludeGroup);
-						}
-						
-						tests_array.add(z);
+						//add client tests to tests array
+						LinkedHashMap<String, String> client_test =  (LinkedHashMap<String, String>) client_list.get(i);
+						tests_array.add(client_test);
 					}
 					
 					FileWriter writer = new FileWriter("test_suite.yaml");
@@ -243,53 +220,20 @@ public class TestConfig extends Global {
 					//Combine the header file (tests_header.yaml) and dynamically created test suite file (test_suite.yaml)
 					IOCopier.joinFiles(new File("run_test_suite.yaml"), new File[] { new File("tests_header.yaml"), new File("test_suite.yaml")});
 					
-					//update perf test suite if the number of searches is different than the default
-					//doesn't work yet
-					if (numSearchesExist) {
-						InputStream perf_input = new FileInputStream(new File("perf_test_tests.yaml"));
-						Yaml q = new Yaml();
-
-						ArrayList perf_list = (ArrayList) q.load(perf_input);
-						
-						//ArrayList<LinkedHashMap<String, String>> perf_array = new ArrayList<LinkedHashMap<String, String>>();
-						//ArrayList<HashMap<String, Object>> perf_array = new ArrayList<HashMap<String, Object>>();
-						ArrayList<Map<String, Object>> perf_array = new ArrayList<Map<String, Object>>();
-						
-//						LinkedHashMap<String, Object> z =  (LinkedHashMap<String, Object>) perf_list.get(0);						
-//						HashMap<String, Object> w = (HashMap<String, Object>) perf_list.get(0);
-						Map<String, Object> perf_map = (Map<String, Object>) perf_list.get(0);
-
-						
-						for (int i = 0; i < newNumSearches; i++) {										
-							perf_map.put("name", "Concurrent search on Chrome for mac " + i);
-//							perf_map.replace("name", "Concurrent search on Chrome for mac " + i);
-							
-							perf_array.add(i, perf_map);
-						}
-						
-						FileWriter writer2 = new FileWriter("perf_test_suite.yaml");
-						q.dump(perf_array, writer2);
-						
-						//Combine the perf test header file with the dynamically created perf test suite
-						//IOCopier.joinFiles(new File("run_perf_tests.yaml"), new File[] { new File("perf_test_head.yaml"), new File("perf_test_suite.yaml")});
-					}
-					
-					//Combine the perf test header file with the dynamically created perf test suite
-					//IOCopier.joinFiles(new File("run_perf_tests.yaml"), new File[] { new File("perf_test_head.yaml"), new File("perf_test_tests.yaml")});
-					
-					//close all file input streams
+					//close all open file input streams
 					input.close();
 					input_base.close();
 					input_client.close();
+					client_selectors.close();
 					
 					//create new testNG object, add test suite files to it, execute testng suite
 					TestNG tng = new TestNG();
 					
 					//Use this when writing a new test
-					tng.setTestSuites(Arrays.asList("new_test.yaml"));
+					//tng.setTestSuites(Arrays.asList("new_test.yaml"));
 					
 					//Use this one to run full suite
-					//tng.setTestSuites(Arrays.asList("run_test_suite.yaml", "perf_test.yaml"));
+					tng.setTestSuites(Arrays.asList("run_test_suite.yaml"/*, "perf_test.yaml"*/));
 					tng.run();
 				}	
 				else {
