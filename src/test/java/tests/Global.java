@@ -42,6 +42,24 @@ public class Global {
 	protected static String billing_zip;
 	protected static String billing_phone;
 	protected static String billing_continue_button;
+	protected static String header;
+	protected static String search;
+	protected static String homepage_modal;
+	protected static String popup_overlay;
+	protected static String close_modal;
+	protected static String shipping_method_continue_button;
+	protected static String shipping_method_form;
+	protected static String payment_method_form;
+	protected static String cc_payment_option_label;
+	protected static String cc_form;
+	protected static String better_cc_form;
+	protected static String cc_num;
+	protected static String cc_type;
+	protected static String cc_exp_year;
+	protected static String cc_exp_month;
+	protected static String cc_veri_num;
+	protected static String payment_method_continue_button;
+	protected static String submit_order_button;
 	
 	public static String getEnv() {
 		return env;
@@ -208,5 +226,87 @@ public class Global {
 	
 	public static String getBillingContinueButton() {
 		return billing_continue_button;
+	}
+	
+	public static String getHeader() {
+		return header;
+	}
+	
+	public static String getSearch() {
+		return search;
+	}
+	
+	public static Boolean getHomepageModal() {
+		if (homepage_modal.equalsIgnoreCase("true")) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
+	public static String getPopupOverlay() {
+		return popup_overlay;
+	} 
+	
+	public static String getCloseModal() {
+		return close_modal;
+	}
+	
+	public static String getShippingMethodContinueButton() {
+		return shipping_method_continue_button;
+	}
+	
+	public static String getShippingMethodsForm() {
+		return shipping_method_form;
+	}
+	
+	public static String getPaymentMethodsForm() {
+		return payment_method_form;
+	}
+	
+	public static String getCCPaymentOptionLabel() {
+		return cc_payment_option_label;
+	}
+	
+	public static String getCCForm() {
+		return cc_form;
+	}
+	
+	public static Boolean getBetterCCForm() {
+		if (better_cc_form.equalsIgnoreCase("true")) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
+	public static String getCCNum() {
+		return cc_num;
+	}
+	
+	public static String getCCType() {
+		return cc_type;
+	}
+	
+	public static String getCCExpMonth() {
+		return cc_exp_month;
+	}
+	
+	public static String getCCExpYear() {
+		return cc_exp_year;
+	}
+	
+	public static String getCCVeriNum() {
+		return cc_veri_num;
+	}
+	
+	public static String getPaymentMethodContinueButton() {
+		return payment_method_continue_button;
+	}
+	
+	public static String getSubmitOrderButton() {
+		return submit_order_button;
 	}
 }
