@@ -8,7 +8,6 @@
       pdevice: desktop
     classes:
       - tests.HttpStatusCodeTest
-    excludedGroups: [none]
 #  - name: Status code check on iOS simulator (iPhone 6)
 #    parameters:
 #      pplatform: Platform.MAC
@@ -19,16 +18,16 @@
 #      pdevice: "iPhone 6"
 #    classes:
 #      - tests.HttpStatusCodeTest
-  - name: Page load speed check on chrome for mac
-    parameters:
-      pplatform: Platform.MAC
-      pbrowser: chrome
-      pversion: "50"
-      purl: "http://localhost:4444/wd/hub"
-      pos: mac
-      pdevice: desktop
-    classes:
-      - tests.PageSpeedTest
+#  - name: Page load speed check on chrome for mac
+#    parameters:
+#      pplatform: Platform.MAC
+#      pbrowser: chrome
+#      pversion: "50"
+#      purl: "http://localhost:4444/wd/hub"
+#      pos: mac
+#      pdevice: desktop
+#    classes:
+#      - tests.PageSpeedTest
   - name: Account Login test on Chrome for mac
     parameters:
       pplatform: Platform.MAC
@@ -69,7 +68,16 @@
 #      pdevice: desktop
 #    classes:
 #      - tests.CategoryShowTest
-      
+  - name: Header visual test on Chrome for mac
+    parameters:
+      pplatform: Platform.MAC
+      pbrowser: chrome
+      pversion: 50
+      purl: http://localhost:4444/wd/hub
+      pos: mac
+      pdevice: desktop
+    classes:
+      - tests.HeaderVisualTest
       
       
       

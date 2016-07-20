@@ -9,8 +9,8 @@ import tests.Global;
 public class Header extends Base {
 
 	String searchBarStr = "search";
-	By header = By.cssSelector("#header");
-	By searchBar = By.cssSelector("#search");
+	By header;
+	By search;
 	By searchButton = By.cssSelector("#search_mini_form > div.input-box > button");
 	By miniCart = By.cssSelector("#header-cart");
 	By miniCartCheckoutButton;
@@ -18,33 +18,33 @@ public class Header extends Base {
 	
 	public Header(WebDriver driver) {
 		super(driver);
-		getMiniCartWrapper();
-		getMiniCartCheckoutButton();
-	}
-
-	private void getMiniCartWrapper() {
+		
 		miniCartWrapper = By.cssSelector(Global.getMiniCartWrapper());
-	}
-	
-	private void getMiniCartCheckoutButton() {
 		miniCartCheckoutButton = By.cssSelector(Global.getMiniCartCheckoutButton());
+		header = By.cssSelector(Global.getHeader());
+		search = By.cssSelector(Global.getSearch());
 	}
 	
 	public Boolean headerDisplayed() {
 		return waitForIsDisplayed(header, 10);
 	}
 	
-	public Boolean searchBarDisplayed() {
-		return waitForIsDisplayed(searchBar, 10);
+	public Boolean searchDisplayed() {
+		return waitForIsDisplayed(search, 10);
+	}
+	
+	public By getHeader() {
+		//System.out.println(header);
+		return header;
 	}
 	
 	public By getSearchBar() {
-		return searchBar;
+		return search;
 	}
 	
 	public void searchFor(String searchTerm) {
-		type(searchTerm, searchBar);
-		WebElement e = driver.findElement(searchBar);
+		type(searchTerm, search);
+		WebElement e = driver.findElement(search);
 		e.submit();
 	}
 	
