@@ -139,13 +139,58 @@ public class CheckoutTest extends Base {
 	@Test(groups = { "functional" }, priority=10)
 	public void fillOutBillingForm() {
 		checkout.fillBillingForm();
-		//checkout.clickBillingContinueButton();
+		checkout.clickBillingContinueButton();
+	}
+	
+	@Test(groups = { "functional" }, priority=11)
+	public void shippingMethodsDisplayed() {
+		Assert.assertTrue(checkout.shippingMethodFormDisplayed(), "Shipping methods form is displayed");
+		checkout.clickShippingMethodContinueButton();
 	}
 	
 	@Test(groups = { "functional" }, priority=12)
-	public void waitUp() throws InterruptedException {
-		Thread.sleep(3000);
+	public void clickShippingMethodContinueButton() {
+		checkout.clickShippingMethodContinueButton();
 	}
+	
+	@Test(groups = { "functional" }, priority=13)
+	public void ccPaymentOptionDisplayed() {
+		Assert.assertTrue(checkout.ccPaymentOptionDisplayed(), "CC payment method is displayed");
+		//checkout.clickCCPaymentOption();
+	}
+	
+	@Test(groups = { "functional" }, priority=14)
+	public void selectCCPaymentOption() {		
+		checkout.clickCCPaymentOptionLabel();
+	}
+	
+	/*@Test(groups = { "functional" }, priority=14)
+	public void ccFormDisplayed() {		
+		Assert.assertTrue(checkout.paymentMethodFormDisplayed(), "Payment form displayed");
+	}
+	
+	@Test(groups = { "functional" }, priority=15)
+	public void fillCCForm() {		
+		
+		if (Global.getBetterCCForm()) {
+			checkout.fillBetterCCForm();
+		}
+		else {
+			checkout.fillCCForm();
+		}
+		
+	}
+	
+	@Test(groups = { "functional" }, priority=16)
+	public void clickPaymentMethodContinueButton() {
+		Assert.assertTrue(checkout.paymentMethodContinueButtonDisplayed(), "Payment method continue button displayed");
+		checkout.clickPaymentMethodContinueButton();
+	}
+	
+	@Test(groups = { "functional" }, priority=17)
+	public void submitOrderButtonDisplayed() {
+		Assert.assertTrue(checkout.submitOrderButtonDisplayed(), "Submit order button displayed");
+	}*/
 	
 	@AfterClass(alwaysRun = true)
 	public void tearDown() {	

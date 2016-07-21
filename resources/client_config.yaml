@@ -56,7 +56,7 @@ nat:
   local:
       base_url: http://qa.nat.dev/
   stage:
-      base_url: https://www.shopnational.com/
+      base_url: https://staging.shopnational.com/
   prod:
     base_url: https://www.shopnational.com/
   tests:
@@ -72,30 +72,5 @@ nat:
     categoryA_url: clothing/
     categoryB_url: clothing/shirts-and-tops/
     simple_product_url: batest-simple
-    cart_url: checkout/cart/
-    checkout_url: checkout/onepage 
-
-ee: 
-  dev:
-      base_url: http://ee.dev/
-  local:
-      base_url: http://qa.ee.dev/
-  stage:
-      base_url: http://staging.eartheasy.com
-  prod:
-    base_url: https://www.eartheasy.com/
-  tests:
-    base_tests: base_tests.yaml
-    client_tests: ee_tests.yaml
-  desktop:
-    width: "1240"
-    height: "800"
-  ajax_minicart: "false"
-  file_extension: "false"
-  direct_to_checkout: "false"
-  urls:
-    categoryA_url: clothing/
-    categoryB_url: clothing/shirts-and-tops/
-    simple_product_url: batest-simple/
     cart_url: checkout/cart/
     checkout_url: checkout/onepage 

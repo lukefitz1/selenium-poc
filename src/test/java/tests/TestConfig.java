@@ -231,9 +231,9 @@ public class TestConfig extends Global {
 					
 					//Use this when writing a new test
 					//tng.setTestSuites(Arrays.asList("new_test.yaml"));
-					
+
 					//Use this one to run full suite
-					tng.setTestSuites(Arrays.asList("run_test_suite.yaml"/*, "perf_test.yaml"*/));
+					tng.setTestSuites(Arrays.asList("run_test_suite.yaml", "perf_test.yaml"));
 					tng.run();
 				}	
 				else {
