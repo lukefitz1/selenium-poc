@@ -3,13 +3,13 @@ listeners:
   - utilities.Listener
   
 tests:
-  - name: Checkout Test
+  - name: Account Login test on iOS simulator (iPhone 6)
     parameters:
       pplatform: Platform.MAC
-      pbrowser: chrome
-      pversion: 50
-      purl: http://localhost:4444/wd/hub
-      pos: mac
-      pdevice: desktop
+      pbrowser: safari
+      pversion: 9.2
+      purl: http://127.0.0.1:4723/wd/hub
+      pos: ios
+      pdevice: "iPhone 6"
     classes:
       - tests.AccountLoginTest

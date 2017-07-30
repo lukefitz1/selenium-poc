@@ -84,6 +84,7 @@ public class CategoryShowTest extends Base {
 	public void getSelectedShowOption() {
 		String s = cat.getSelectedShowOption();
 		show = Integer.parseInt(s);
+		System.out.println();
 	}
 	
 	@Test(groups = { "functional" }, priority=5)
